@@ -3,13 +3,14 @@ import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { RepositoryListSkeleton } from "./SuspenseSkeleton";
 
 const queryClient = new QueryClient();
 
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<div>Suspended app</div>}>
+      <Suspense fallback={<RepositoryListSkeleton />}>
         <App />
       </Suspense>
     </QueryClientProvider>
