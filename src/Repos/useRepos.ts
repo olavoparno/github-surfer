@@ -14,7 +14,7 @@ export function useRepos({
 }: IUseRepos = {}): UseQueryResult<TUseReposQueryReturn, unknown> {
   const client = new GraphQLClient(endpointUrl, {
     headers: {
-      Authorization: "bearer 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",
+      Authorization: `bearer ${process.env.REACT_APP_GITHUB_KEY} `,
     },
   });
 
