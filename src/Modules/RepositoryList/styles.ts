@@ -1,7 +1,10 @@
 import { makeStyles, Theme } from "@material-ui/core";
 
 export const useStyles = makeStyles((theme: Theme) => ({
-  paginationRoot: {
+  paginationSpacerOverride: {
+    display: "none",
+  },
+  paginationBody: {
     flexShrink: 0,
     marginLeft: theme.spacing(2.5),
   },

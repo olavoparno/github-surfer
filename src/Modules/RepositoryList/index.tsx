@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useMemo } from "react";
+import { MouseEvent, useMemo } from "react";
 import {
   Table,
   TableContainer,
@@ -15,22 +15,19 @@ import {
 } from "@material-ui/core";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import { IPageInfo, TUseReposQueryReturn } from "./types";
+import { IRepositoryListProps, ITablePaginationActionsProps } from "./types";
 import { useStyles } from "./styles";
+import { IPageInfo } from "../RepositorySurfer/types";
 
-interface TablePaginationActionsProps {
-  page: number;
-  onChangePage: (event: MouseEvent<HTMLButtonElement>, newPage: number) => void;
-  pageInfo: IPageInfo;
-  setCurrentAfter: () => void;
-  setCurrentBefore: () => void;
-}
-
-function TablePaginationActions(props: TablePaginationActionsProps) {
+function TablePaginationActions({
+  page,
+  onChangePage,
+  pageInfo,
+  setCurrentAfter,
+  setCurrentBefore,
+}: ITablePaginationActionsProps): JSX.Element {
   const classes = useStyles();
   const theme = useTheme();
-  const { page, onChangePage, pageInfo, setCurrentAfter, setCurrentBefore } =
-    props;
 
   const { hasNextPage, hasPreviousPage } = pageInfo;
 
@@ -45,7 +42,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
   };
 
   return (
-    <div className={classes.paginationRoot}>
+    <div className={classes.paginationBody}>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={!hasPreviousPage && page === 0}
@@ -80,20 +77,7 @@ export function RepositoryList({
   handleChangePage,
   currentPage,
   rowsPerPage,
-}: {
-  data: TUseReposQueryReturn;
-  handleSetCurrentAfter: () => void;
-  handleSetCurrentBefore: () => void;
-  handleChangeRowsPerPage: (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-  handleChangePage: (
-    event: MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => void;
-  currentPage: number;
-  rowsPerPage: number;
-}): JSX.Element {
+}: IRepositoryListProps): JSX.Element {
   const classes = useStyles();
 
   return useMemo(
@@ -123,6 +107,9 @@ export function RepositoryList({
           <TableFooter>
             <TableRow>
               <TablePagination
+                classes={{
+                  spacer: classes.paginationSpacerOverride,
+                }}
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={2}
                 count={data?.repositoryCount || 0}

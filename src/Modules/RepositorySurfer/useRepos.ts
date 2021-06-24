@@ -1,25 +1,25 @@
 import { useQuery, UseQueryResult } from "react-query";
-import { GraphQLClient } from "graphql-request";
-import { queryRepository } from "./queries";
-import { IUseRepos, IUseReposReturn, TUseReposQueryReturn } from "./types";
+import { graphqlClient } from "../../Common/GraphQLClient";
+import { queryRepository } from "../RepositoryList/queries";
+import {
+  IUseRepos,
+  IUseReposReturn,
+  TUseReposQueryReturn,
+} from "../RepositoryList/types";
 
 const endpoint = "https://api.github.com/graphql";
 
 export function useRepos({
   endpointUrl = endpoint,
-  topic,
   rowsPerPage,
+  topic,
   after,
   before,
 }: IUseRepos = {}): UseQueryResult<TUseReposQueryReturn, unknown> {
-  const client = new GraphQLClient(endpointUrl, {
-    headers: {
-      Authorization: `bearer ${process.env.REACT_APP_GITHUB_KEY} `,
-    },
-  });
+  const client = graphqlClient(endpointUrl).getClient();
 
   return useQuery(
-    ["search", topic, after, before, rowsPerPage],
+    ["search", rowsPerPage, topic, after, before],
     async () => {
       const {
         search: { repos, pageInfo, repositoryCount },
@@ -30,9 +30,7 @@ export function useRepos({
         before,
       });
 
-      const data = { repos, pageInfo, repositoryCount };
-
-      return data;
+      return { repos, pageInfo, repositoryCount };
     },
     {
       notifyOnChangeProps: ["data", "error"],

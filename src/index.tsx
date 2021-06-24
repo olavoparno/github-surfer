@@ -1,24 +1,15 @@
-import React, { Suspense } from "react";
+import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { RepositoryListSkeleton } from "./SuspenseSkeleton";
 
 const queryClient = new QueryClient();
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<RepositoryListSkeleton />}>
-        <App />
-      </Suspense>
+      <App />
     </QueryClientProvider>
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
