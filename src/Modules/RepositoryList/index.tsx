@@ -107,6 +107,7 @@ export function RepositoryList({
                 <TablePagination
                   classes={{
                     spacer: classes.paginationSpacerOverride,
+                    toolbar: classes.paginationToolbarOverride,
                   }}
                   rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                   colSpan={2}
