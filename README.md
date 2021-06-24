@@ -3,7 +3,9 @@
 
 Search for repositories within a specific **topic** such as **react** to see their stars and forks quantity
 
-
+| Statements                  | Branches                | Functions                 | Lines             |
+| --------------------------- | ----------------------- | ------------------------- | ----------------- |
+| ![Statements](https://img.shields.io/badge/statements-71.43%25-red.svg) | ![Branches](https://img.shields.io/badge/branches-75%25-red.svg) | ![Functions](https://img.shields.io/badge/functions-60.71%25-red.svg) | ![Lines](https://img.shields.io/badge/lines-75.76%25-red.svg) |
 
 ## Run Locally
 

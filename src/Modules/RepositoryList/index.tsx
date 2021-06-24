@@ -9,7 +9,6 @@ import {
   Paper,
   Link,
   TableFooter,
-  useTheme,
   IconButton,
   TablePagination,
 } from "@material-ui/core";
@@ -27,7 +26,6 @@ function TablePaginationActions({
   setCurrentBefore,
 }: ITablePaginationActionsProps): JSX.Element {
   const classes = useStyles();
-  const theme = useTheme();
 
   const { hasNextPage, hasPreviousPage } = pageInfo;
 
@@ -48,22 +46,14 @@ function TablePaginationActions({
         disabled={!hasPreviousPage && page === 0}
         aria-label="previous page"
       >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowRight />
-        ) : (
-          <KeyboardArrowLeft />
-        )}
+        <KeyboardArrowLeft />
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
         disabled={!hasNextPage}
         aria-label="next page"
       >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowLeft />
-        ) : (
-          <KeyboardArrowRight />
-        )}
+        <KeyboardArrowRight />
       </IconButton>
     </div>
   );
@@ -103,35 +93,44 @@ export function RepositoryList({
                 <TableCell align="left">{currentRepo.forkCount}</TableCell>
               </TableRow>
             ))}
+            {data.repos.length === 0 && (
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  No data found
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                classes={{
-                  spacer: classes.paginationSpacerOverride,
-                }}
-                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-                colSpan={2}
-                count={data?.repositoryCount || 0}
-                rowsPerPage={rowsPerPage}
-                page={currentPage}
-                SelectProps={{
-                  inputProps: { "aria-label": "rows per page" },
-                  native: true,
-                }}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                ActionsComponent={(props) => (
-                  <TablePaginationActions
-                    pageInfo={data?.pageInfo as IPageInfo}
-                    setCurrentAfter={handleSetCurrentAfter}
-                    setCurrentBefore={handleSetCurrentBefore}
-                    {...props}
-                  />
-                )}
-              />
-            </TableRow>
-          </TableFooter>
+          {data.repos.length > 0 && (
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  classes={{
+                    spacer: classes.paginationSpacerOverride,
+                  }}
+                  rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                  colSpan={2}
+                  count={data.repositoryCount}
+                  rowsPerPage={rowsPerPage}
+                  page={currentPage}
+                  SelectProps={{
+                    inputProps: { "aria-label": "rows per page" },
+                    native: true,
+                  }}
+                  onChangePage={handleChangePage}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                  ActionsComponent={(props) => (
+                    <TablePaginationActions
+                      pageInfo={data?.pageInfo as IPageInfo}
+                      setCurrentAfter={handleSetCurrentAfter}
+                      setCurrentBefore={handleSetCurrentBefore}
+                      {...props}
+                    />
+                  )}
+                />
+              </TableRow>
+            </TableFooter>
+          )}
         </Table>
       </TableContainer>
     ),
